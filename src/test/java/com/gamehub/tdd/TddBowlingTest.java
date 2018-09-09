@@ -75,7 +75,33 @@ public class TddBowlingTest {
 
 	@Test
 	void allSpare2() {
+		IntStream.range(0, 20).forEachOrdered(i -> {
+			int frame = (i + 1) / 2;
+			switch (i % 4) {
+				case 0:
+					//4번째 점수는 스킵
+					break;
+				case 1:
+					//1번째 점수
+					bowling.roll(frame, 8);
+					break;
+				case 2:
+					//2번째 점수
+					bowling.roll(frame, 2);
+					break;
+				case 3:
+					//3번째 점수
+					bowling.roll(frame, 10);
+					break;
+			}
+		});
 
+		//마지막 프레임이 스페어 이기 때문에 한번 더 roll 을 함
+		bowling.roll(11, 10);
+
+		int score = bowling.score();
+
+		assertThat(score).isEqualTo(2000);
 	}
 
 	@Test
