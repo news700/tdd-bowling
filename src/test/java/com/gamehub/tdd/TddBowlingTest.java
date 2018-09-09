@@ -75,7 +75,7 @@ public class TddBowlingTest {
 
 	@Test
 	void allSpare2() {
-		IntStream.range(0, 20).forEachOrdered(i -> {
+		IntStream.range(0, 10).forEachOrdered(i -> {
 			int frame = (i + 1) / 2;
 			switch (i % 4) {
 				case 0:
@@ -96,12 +96,13 @@ public class TddBowlingTest {
 			}
 		});
 
-		//마지막 프레임이 스페어 이기 때문에 한번 더 roll 을 함
-		bowling.roll(11, 10);
+		//마지막 프레임이 스트라이크 이기 때문에 두번 더 roll 을 함
+		bowling.roll(11, 8);
+		bowling.roll(11, 2);
 
 		int score = bowling.score();
 
-		assertThat(score).isEqualTo(200);
+		assertThat(score).isEqualTo(210);
 	}
 
 	@Test
