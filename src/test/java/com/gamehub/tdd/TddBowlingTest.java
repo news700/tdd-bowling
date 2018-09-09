@@ -2,6 +2,10 @@ package com.gamehub.tdd;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.stream.IntStream;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * roll(int n)과 score()를 구현
  * 내부적으로 각 프레임(1-10)의 점수를 관리할 것
@@ -21,7 +25,12 @@ public class TddBowlingTest {
 
 	@Test
 	void allGutter() {
+		TddBowling bowling = new TddBowling();
+		IntStream.range(1, 10).forEachOrdered(i -> bowling.roll(0));
 
+		int score = bowling.score();
+
+		assertThat(score).isEqualTo(0);
 	}
 
 	@Test
