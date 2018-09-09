@@ -33,7 +33,7 @@ public class TddBowlingTest {
 	@Test
 	void allGutter() {
 		IntStream.range(0, 20).forEachOrdered(i -> {
-			int frame = (i + 1) / 2;
+			int frame = (i + 2) / 2;
 			bowling.roll(frame, 0);
 		});
 
@@ -45,7 +45,7 @@ public class TddBowlingTest {
 	@Test
 	void allOpen() {
 		IntStream.range(0, 20).forEachOrdered(i -> {
-			int frame = (i + 1) / 2;
+			int frame = (i + 2) / 2;
 			bowling.roll(frame, 4);
 		});
 
@@ -57,11 +57,11 @@ public class TddBowlingTest {
 	@Test
 	void allSpare1() {
 		IntStream.range(0, 20).forEachOrdered(i -> {
-			int val = 9;
-			if (i % 2 == 0) {
-				val = 1;
+			int val = 9; //각 프레임의 첫번째 점수
+			if (i % 2 > 0) {
+				val = 1; //각 프레임의 두번째 점수
 			}
-			int frame = (i + 1) / 2;
+			int frame = (i + 2) / 2;
 			bowling.roll(frame, val);
 		});
 
@@ -76,29 +76,29 @@ public class TddBowlingTest {
 	@Test
 	void allSpare2() {
 		IntStream.range(0, 20).forEachOrdered(i -> {
-			int frame = (i + 1) / 2;
+			int frame = (i + 2) / 2;
 			switch (i % 4) {
 				case 0:
-					//4번째 점수는 스킵
-					break;
-				case 1:
 					//1번째 점수
 					bowling.roll(frame, 8);
 					break;
-				case 2:
+				case 1:
 					//2번째 점수
 					bowling.roll(frame, 2);
 					break;
-				case 3:
+				case 2:
 					//3번째 점수
 					bowling.roll(frame, 10);
+					break;
+				case 3:
+					//4번째 점수는 스킵
 					break;
 			}
 		});
 
 		//마지막 프레임이 스트라이크 이기 때문에 두번 더 roll 을 함
-		bowling.roll(11, 8);
-		bowling.roll(11, 2);
+		bowling.roll(10, 8);
+		bowling.roll(10, 2);
 
 		int score = bowling.score();
 
@@ -107,6 +107,19 @@ public class TddBowlingTest {
 
 	@Test
 	void allStrike() {
+		IntStream.range(0, 20).forEachOrdered(i -> {
+			int frame = (i + 2) / 2;
+			if (i % 2 == 0) {
+				bowling.roll(frame, 10);
+			}
+		});
 
+		//마지막 프레임이 스트라이크 이기 때문에 두번 더 roll 을 함
+		bowling.roll(10, 10);
+		bowling.roll(10, 10);
+
+		int score = bowling.score();
+
+		assertThat(score).isEqualTo(300);
 	}
 }

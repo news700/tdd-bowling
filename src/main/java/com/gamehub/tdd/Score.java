@@ -9,14 +9,11 @@ import lombok.Data;
 public class Score {
 	int first;
 	int second;
+	int third;
 	int bonus;
 
-	boolean isFirstStrkie() {
+	boolean isStrike() {
 		return first == 10;
-	}
-
-	boolean isSecondStrike() {
-		return second == 10;
 	}
 
 	boolean isSpare() {
