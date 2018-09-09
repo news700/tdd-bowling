@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * roll(int n)과 score()를 구현
@@ -21,6 +22,9 @@ import static org.assertj.core.api.Assertions.assertThat;
  * 3. 모두 스페어(1)인 경우
  * 4. 모두 스페어(2)인 경우
  * 5. 모두 스트라이크인 경우
+ * 6. roll 호출 시 점수의 범위를 넘어간 경우
+ * 7. roll 호출 시 지정 횟수보다 많이 호출 한 경우
+ *
  */
 public class TddBowlingTest {
 	TddBowling bowling;
@@ -117,5 +121,19 @@ public class TddBowlingTest {
 		int score = bowling.score();
 
 		assertThat(score).isEqualTo(300);
+	}
+
+	@Test
+	void valueRangeError() {
+		assertThatThrownBy(() -> bowling.roll(-1)).isInstanceOf(IllegalArgumentException.class).hasMessage("val must between 0 to 10");
+		assertThatThrownBy(() -> bowling.roll(11)).isInstanceOf(IllegalArgumentException.class).hasMessage("val must between 0 to 10");
+	}
+
+	@Test
+	void frameRangeError() {
+		//20번을 던짐
+		IntStream.range(0, 20).forEachOrdered(i -> bowling.roll(0));
+
+		assertThatThrownBy(() -> bowling.roll(0)).isInstanceOf(IllegalStateException.class).hasMessage("game over");
 	}
 }

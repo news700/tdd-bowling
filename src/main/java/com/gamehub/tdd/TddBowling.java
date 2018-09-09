@@ -8,6 +8,37 @@ public class TddBowling {
 	private int currFrame = 1; //프레임은 볼링에서의 프레임
 	private int currUnit = 1; //유닛은 한프레임당 던진 횟수
 
+	public boolean roll(int val) {
+		if (val < 0 || val > 10) {
+			throw new IllegalArgumentException("val must between 0 to 10");
+		}
+
+		//현재 프레임과, 유닛을 정함
+		setCurrent();
+
+		//1프레임인 경우 점수를 들어온대로 저장
+		if (currFrame == 1) {
+			setFirstFrameScore(val);
+			return false;
+		}
+
+		//2프레임부터 9프레임 까지
+		if (currFrame > 1) {
+			setNormalFrameScore(val);
+		}
+
+		if (currFrame > 10) {
+			//게임종료
+			return true;
+		}
+
+		return false;
+	}
+
+	public int score() {
+		return scoreBoard.keySet().stream().map(key -> scoreBoard.get(key)).mapToInt(score -> score.getFirst() + score.getSecond() + score.getThird() + score.getBonus()).sum();
+	}
+
 	/**
 	 * 프레임을 하나 올리고 유닛을 1로 초기화함
 	 * 10 프레임인 경우 무시
@@ -30,9 +61,15 @@ public class TddBowling {
 	 * 현재 프레임과 유닛을 판단함
 	 */
 	private void setCurrent() {
-		if (currFrame < 10) {
-			Score score = scoreBoard.get(currFrame);
-			if (score != null) {
+		Score score = scoreBoard.get(currFrame);
+		if (score != null) {
+			if (currFrame == 10) {
+				if (currUnit > 2) {
+					if (!score.isStrike() && !score.isSpare()) {
+						throw new IllegalStateException("game over");
+					}
+				}
+			} else {
 				if (score.isStrike()) {
 					increaseFrame();
 				} else {
@@ -111,40 +148,5 @@ public class TddBowling {
 			scoreBoard.put(currFrame, score);
 		}
 		increaseUnit();
-	}
-
-	public boolean roll(int val) {
-		//현재 프레임과, 유닛을 정함
-		setCurrent();
-
-		//1프레임인 경우 점수를 들어온대로 저장
-		if (currFrame == 1) {
-			setFirstFrameScore(val);
-			return false;
-		}
-
-		//2프레임부터 9프레임 까지
-		if (currFrame > 1) {
-			setNormalFrameScore(val);
-		}
-
-		if (currFrame > 10) {
-			//게임종료
-			return true;
-		}
-
-		return false;
-	}
-
-	public int score() {
-		return scoreBoard.keySet().stream().map(key -> scoreBoard.get(key)).mapToInt(score -> score.getFirst() + score.getSecond() + score.getThird() + score.getBonus()).sum();
-	}
-
-	private void spare() {
-
-	}
-
-	private void strike() {
-
 	}
 }
