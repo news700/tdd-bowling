@@ -32,6 +32,7 @@ public class TddBowlingTest {
 
 	@Test
 	void allGutter() {
+		//20번을 던짐
 		IntStream.range(0, 20).forEachOrdered(i -> {
 			bowling.roll(0);
 		});
@@ -43,6 +44,7 @@ public class TddBowlingTest {
 
 	@Test
 	void allOpen() {
+		//20번을 던짐
 		IntStream.range(0, 20).forEachOrdered(i -> {
 			bowling.roll(4);
 		});
@@ -54,6 +56,7 @@ public class TddBowlingTest {
 
 	@Test
 	void allSpare1() {
+		//20번을 던지고
 		IntStream.range(0, 20).forEachOrdered(i -> {
 			int val = 9; //각 프레임의 첫번째 점수
 			if (i % 2 > 0) {
@@ -72,6 +75,7 @@ public class TddBowlingTest {
 
 	@Test
 	void allSpare2() {
+		//15번을 먼저 던지고
 		IntStream.range(0, 15).forEachOrdered(i -> {
 			switch (i % 3) {
 				case 0:
