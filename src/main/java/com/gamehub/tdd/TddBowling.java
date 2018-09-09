@@ -9,7 +9,9 @@ public class TddBowling {
 	private int currUnit = 1;
 
 	private void increaseFrame() {
-		currFrame++;
+		if (currFrame < 10) {
+			currFrame++;
+		}
 	}
 
 	private void increaseUnit() {
@@ -22,10 +24,24 @@ public class TddBowling {
 
 	public boolean roll(int val) {
 		//todo frame 프레임이 넘어가는건지 아닌지를 판단
-		if (currUnit > 1) {
-			refreshUnit();
-			increaseFrame();
+		if (currFrame < 10) {
+			Score score = scoreBoard.get(currFrame);
+			if (score != null) {
+				if (score.isStrike()) {
+					refreshUnit();
+					increaseFrame();
+				} else {
+					if (currUnit > 2) {
+						refreshUnit();
+						increaseFrame();
+					}
+				}
+			}
 		}
+
+		System.out.println(currFrame);
+		System.out.println(currUnit);
+		System.out.println(val);
 
 		//1프레임인 경우 점수를 들어온대로 저장
 		if (currFrame == 1) {
@@ -41,8 +57,8 @@ public class TddBowling {
 			return false;
 		}
 
-		//2프레임부터
-		if (currFrame > 1) {
+		//2프레임부터 9프레임 까지
+		if (currFrame > 1 && currFrame < 10) {
 			if (currUnit == 1) { //첫번째 점수인 경우
 				//이전 프레임에 보너스 점수를 첫번째 점수로 넣어줌 (이전 프레임이 스트라이크인 or 스페어인 경우)
 				int prevFrame = currFrame - 1;
@@ -66,7 +82,6 @@ public class TddBowling {
 				}
 				//프레임에 첫번째 점수를 넣어줌
 				scoreBoard.put(currFrame, Score.builder().first(val).build());
-				increaseUnit();
 			} else {
 				//해당 프레임의 첫번째 점수는 이미 들어가 있음
 				Score score = scoreBoard.get(currFrame);
@@ -85,9 +100,52 @@ public class TddBowling {
 					score.setThird(val);
 				}
 				scoreBoard.put(currFrame, score);
-				increaseUnit();
+			}
+		} else if (currFrame == 10) { //10프레임인 경우
+			if (currUnit == 1) { //첫번째 점수인 경우
+				//이전 프레임에 보너스 점수를 첫번째 점수로 넣어줌 (이전 프레임이 스트라이크인 or 스페어인 경우)
+				int prevFrame = currFrame - 1;
+				Score prevScore = scoreBoard.get(prevFrame);
+				if (prevScore.isStrike() || prevScore.isSpare()) {
+					//이전 프레임 첫번째가 스트라이크인 경우 or 이전 프레임이 스페어인 경우 첫번째 보너스 점수 부여
+					prevScore.setBonus(val);
+					scoreBoard.put(prevFrame, prevScore);
+					if (currFrame > 2) { //3프레임부터는 이전 프레임이 스트라이크인지 확인
+						if (prevScore.isStrike()) {
+							int morePrevFrame = prevFrame - 1;
+							Score morePrevScore = scoreBoard.get(morePrevFrame);
+							if (morePrevScore.isStrike()) {
+								//이전전 프레임이 스트라이크인 경우 첫번째 보너스 점수 합산
+								int morePrevBonus = morePrevScore.getBonus();
+								morePrevScore.setBonus(morePrevBonus + val);
+								scoreBoard.put(morePrevFrame, morePrevScore);
+							}
+						}
+					}
+				}
+				//프레임에 첫번째 점수를 넣어줌
+				scoreBoard.put(currFrame, Score.builder().first(val).build());
+			} else {
+				//해당 프레임의 첫번째 점수는 이미 들어가 있음
+				Score score = scoreBoard.get(currFrame);
+				if (currUnit == 2) {
+					//이전 프레임에 보너스 점수를 두번째 점수를 합산해서 넣어줌 (이전 프레임이 스트라이크인 경우)
+					int prevFrame = currFrame - 1;
+					Score prevScore = scoreBoard.get(prevFrame);
+					if (prevScore.isStrike()) {
+						//이전 프레임 첫번째가 스트라이크인 경우 두번째 보너스 점수 부여
+						int prevBonus = prevScore.getBonus();
+						prevScore.setBonus(prevBonus + val);
+						scoreBoard.put(prevFrame, prevScore);
+					}
+					score.setSecond(val);
+				} else {
+					score.setThird(val);
+				}
+				scoreBoard.put(currFrame, score);
 			}
 		}
+		increaseUnit();
 
 		if (currFrame > 10) {
 			return true;

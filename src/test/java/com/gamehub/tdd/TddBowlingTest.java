@@ -72,8 +72,8 @@ public class TddBowlingTest {
 
 	@Test
 	void allSpare2() {
-		IntStream.range(0, 20).forEachOrdered(i -> {
-			switch (i % 4) {
+		IntStream.range(0, 15).forEachOrdered(i -> {
+			switch (i % 3) {
 				case 0:
 					//1번째 점수
 					bowling.roll(8);
@@ -85,9 +85,6 @@ public class TddBowlingTest {
 				case 2:
 					//3번째 점수
 					bowling.roll(10);
-					break;
-				case 3:
-					//4번째 점수는 스킵
 					break;
 			}
 		});
