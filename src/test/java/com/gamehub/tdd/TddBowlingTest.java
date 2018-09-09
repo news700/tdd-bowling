@@ -66,7 +66,7 @@ public class TddBowlingTest {
 		});
 
 		//마지막 프레임이 스페어 이기 때문에 한번 더 roll 을 함
-		bowling.roll(11, 9);
+		bowling.roll(10, 9);
 
 		int score = bowling.score();
 
