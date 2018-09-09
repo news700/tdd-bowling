@@ -101,7 +101,7 @@ public class TddBowlingTest {
 
 		int score = bowling.score();
 
-		assertThat(score).isEqualTo(2000);
+		assertThat(score).isEqualTo(200);
 	}
 
 	@Test

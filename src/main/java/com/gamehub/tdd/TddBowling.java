@@ -8,7 +8,7 @@ public class TddBowling {
 
 	public void roll(int frame, int val) {
 		Integer first = board.get(frame);
-		if (first != null) {
+		if (first != null) { //각 프레임의 두번째 점수인 경우
 			val += first;
 		} else { //각 프레임의 첫번째 점수인 경우
 			if (frame > 1) {
