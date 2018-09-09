@@ -100,7 +100,7 @@ public class TddBowling {
 	}
 
 	/**
-	 * 두번째 프레임부터 10프레임까지의 점수만 담당함
+	 * 두번째 프레임부터 9프레임까지의 점수만 담당함
 	 *
 	 * @param val
 	 */
@@ -148,5 +148,14 @@ public class TddBowling {
 			scoreBoard.put(currFrame, score);
 		}
 		increaseUnit();
+	}
+
+	/**
+	 * 10프레임 점수만 담당함
+	 *
+	 * @param val
+	 */
+	private void setTenthFrameScore(int val) {
+		//todo implements
 	}
 }
