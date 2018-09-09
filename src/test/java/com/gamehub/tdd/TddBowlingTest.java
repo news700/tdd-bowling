@@ -1,6 +1,7 @@
 package com.gamehub.tdd;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.stream.IntStream;
@@ -22,9 +23,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * 3. 모두 스페어(1)인 경우
  * 4. 모두 스페어(2)인 경우
  * 5. 모두 스트라이크인 경우
- * 6. roll 호출 시 점수의 범위를 넘어간 경우
- * 7. roll 호출 시 지정 횟수보다 많이 호출 한 경우
- *
+ * 6. 점수가 범위를 벗어난 경우
+ * 7. 게임이 종료된 경우
+ * 8. 점수가 섞여있는 경우
  */
 public class TddBowlingTest {
 	TddBowling bowling;
@@ -35,6 +36,7 @@ public class TddBowlingTest {
 	}
 
 	@Test
+	@DisplayName("모두 거터인 경우")
 	void allGutter() {
 		//20번을 던짐
 		IntStream.range(0, 20).forEachOrdered(i -> {
@@ -47,6 +49,7 @@ public class TddBowlingTest {
 	}
 
 	@Test
+	@DisplayName("모두 오픈인 경우")
 	void allOpen() {
 		//20번을 던짐
 		IntStream.range(0, 20).forEachOrdered(i -> {
@@ -59,6 +62,7 @@ public class TddBowlingTest {
 	}
 
 	@Test
+	@DisplayName("모두 스페어1인 경우")
 	void allSpare1() {
 		//20번을 던지고
 		IntStream.range(0, 20).forEachOrdered(i -> {
@@ -78,6 +82,7 @@ public class TddBowlingTest {
 	}
 
 	@Test
+	@DisplayName("모두 스페어2인 경우")
 	void allSpare2() {
 		//15번을 먼저 던지고
 		IntStream.range(0, 15).forEachOrdered(i -> {
@@ -107,6 +112,7 @@ public class TddBowlingTest {
 	}
 
 	@Test
+	@DisplayName("모두 스트라이크인 경우")
 	void allStrike() {
 		IntStream.range(0, 20).forEachOrdered(i -> {
 			if (i % 2 == 0) {
@@ -124,16 +130,45 @@ public class TddBowlingTest {
 	}
 
 	@Test
+	@DisplayName("점수가 범위를 벗어난 경우")
 	void valueRangeError() {
 		assertThatThrownBy(() -> bowling.roll(-1)).isInstanceOf(IllegalArgumentException.class).hasMessage("val must between 0 to 10");
 		assertThatThrownBy(() -> bowling.roll(11)).isInstanceOf(IllegalArgumentException.class).hasMessage("val must between 0 to 10");
 	}
 
 	@Test
+	@DisplayName("게임이 종료된 경우")
 	void frameRangeError() {
 		//20번을 던짐
 		IntStream.range(0, 20).forEachOrdered(i -> bowling.roll(0));
 
 		assertThatThrownBy(() -> bowling.roll(0)).isInstanceOf(IllegalStateException.class).hasMessage("game over");
+	}
+
+	@Test
+	@DisplayName("프레임별 점수가 다 다르지만 10프레임이 오픈인 경우")
+	void mixedScoreFor10FrameOpen() {
+		//todo
+		bowling.roll(1);
+		int score = bowling.score();
+		assertThat(score).isEqualTo(1);
+	}
+
+	@Test
+	@DisplayName("프레임별 점수가 다 다르지만 10프레임이 스페어인 경우")
+	void mixedScoreFor10FrameSpare() {
+		//todo
+		bowling.roll(1);
+		int score = bowling.score();
+		assertThat(score).isEqualTo(1);
+	}
+
+	@Test
+	@DisplayName("프레임별 점수가 다 다르지만 10프레임이 스트라이크인 경우")
+	void mixedScoreFor10FrameStrike() {
+		//todo
+		bowling.roll(1);
+		int score = bowling.score();
+		assertThat(score).isEqualTo(1);
 	}
 }
