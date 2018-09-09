@@ -23,10 +23,12 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class TddBowlingTest {
 
+
+
 	@Test
 	void allGutter() {
 		TddBowling bowling = new TddBowling();
-		IntStream.range(1, 10).forEachOrdered(i -> bowling.roll(0));
+		IntStream.range(0, 10).forEachOrdered(i -> bowling.roll(0));
 
 		int score = bowling.score();
 
@@ -35,7 +37,12 @@ public class TddBowlingTest {
 
 	@Test
 	void allOpen() {
+		TddBowling bowling = new TddBowling();
+		IntStream.range(0, 10).forEachOrdered(i -> bowling.roll(4));
 
+		int score = bowling.score();
+
+		assertThat(score).isEqualTo(40);
 	}
 
 	@Test
