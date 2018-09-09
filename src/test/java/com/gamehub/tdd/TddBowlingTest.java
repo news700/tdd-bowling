@@ -50,6 +50,17 @@ public class TddBowlingTest {
 
 	@Test
 	void allSpare1() {
+		IntStream.range(0, 10).forEachOrdered(i -> {
+			int val = 9;
+			if (i % 2 == 0) {
+				val = 1;
+			}
+			bowling.roll(val);
+		});
+
+		int score = bowling.score();
+
+		assertThat(score).isEqualTo(190);
 
 	}
 
