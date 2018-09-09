@@ -1,13 +1,24 @@
 package com.gamehub.tdd;
 
-public class TddBowling {
-	private int score = 0;
+import java.util.HashMap;
+import java.util.Map;
 
-	public void roll(int val) {
-		score += val;
+public class TddBowling {
+	private Map<Integer, Integer> board = new HashMap<>();
+
+	private int bonus = 0;
+
+	public void roll(int frame, int val) {
+		Integer first = board.get(frame);
+		if (first != null) {
+			val += first + bonus;
+		} else {
+			bonus = val;
+		}
+		board.put(frame, val);
 	}
 
 	public int score() {
-		return score;
+		return board.keySet().stream().map(key -> board.get(key)).mapToInt(Integer::intValue).sum();
 	}
 }

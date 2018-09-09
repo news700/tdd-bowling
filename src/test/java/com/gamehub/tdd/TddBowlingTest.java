@@ -32,7 +32,10 @@ public class TddBowlingTest {
 
 	@Test
 	void allGutter() {
-		IntStream.range(0, 10).forEachOrdered(i -> bowling.roll(0));
+		IntStream.range(0, 20).forEachOrdered(i -> {
+			int frame = (i + 1) / 2;
+			bowling.roll(frame, 0);
+		});
 
 		int score = bowling.score();
 
@@ -41,7 +44,10 @@ public class TddBowlingTest {
 
 	@Test
 	void allOpen() {
-		IntStream.range(0, 10).forEachOrdered(i -> bowling.roll(4));
+		IntStream.range(0, 20).forEachOrdered(i -> {
+			int frame = (i + 1) / 2;
+			bowling.roll(frame, 4);
+		});
 
 		int score = bowling.score();
 
@@ -50,18 +56,21 @@ public class TddBowlingTest {
 
 	@Test
 	void allSpare1() {
-		IntStream.range(0, 10).forEachOrdered(i -> {
+		IntStream.range(0, 20).forEachOrdered(i -> {
 			int val = 9;
 			if (i % 2 == 0) {
 				val = 1;
 			}
-			bowling.roll(val);
+			int frame = (i + 1) / 2;
+			bowling.roll(frame, val);
 		});
+
+		//마지막 프레임이 스페어 이기 때문에 한번 더 roll 을 함
+		bowling.roll(11, 9);
 
 		int score = bowling.score();
 
 		assertThat(score).isEqualTo(190);
-
 	}
 
 	@Test
