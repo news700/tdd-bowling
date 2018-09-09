@@ -27,4 +27,5 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-params:${junitVer}")
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVer}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVer}")
+    compileOnly("org.projectlombok:lombok:1.18.2")
 }

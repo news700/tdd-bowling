@@ -75,7 +75,7 @@ public class TddBowlingTest {
 
 	@Test
 	void allSpare2() {
-		IntStream.range(0, 10).forEachOrdered(i -> {
+		IntStream.range(0, 20).forEachOrdered(i -> {
 			int frame = (i + 1) / 2;
 			switch (i % 4) {
 				case 0:
@@ -102,7 +102,7 @@ public class TddBowlingTest {
 
 		int score = bowling.score();
 
-		assertThat(score).isEqualTo(210);
+		assertThat(score).isEqualTo(200);
 	}
 
 	@Test
