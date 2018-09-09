@@ -51,7 +51,7 @@ public class TddBowlingTest {
 
 		int score = bowling.score();
 
-		assertThat(score).isEqualTo(40);
+		assertThat(score).isEqualTo(80);
 	}
 
 	@Test
