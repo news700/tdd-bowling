@@ -30,4 +30,13 @@ public class BowlingGameTest {
 			game.roll(pins);
 		}
 	}
+
+	@Test
+	void oneSpareGame() {
+		game.roll(8);
+		game.roll(2);
+		game.roll(3);
+		rollMany(17, 0);
+		assertThat(game.score()).isEqualTo(16);
+	}
 }
