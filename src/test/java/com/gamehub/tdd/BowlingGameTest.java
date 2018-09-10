@@ -11,7 +11,6 @@ public class BowlingGameTest {
 		for (int i = 0; i < 20; i++) {
 			game.roll(0);
 		}
-		assertThat(game.score()).isEqualsTo(0);
+		assertThat(game.score()).isEqualTo(0);
 	}
-
 }
