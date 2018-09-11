@@ -39,4 +39,6 @@ public class BowlingGameTest {
 		rollMany(17, 0);
 		assertThat(game.score()).isEqualTo(16);
 	}
+
+
 }
