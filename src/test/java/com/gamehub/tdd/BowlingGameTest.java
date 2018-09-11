@@ -33,10 +33,23 @@ public class BowlingGameTest {
 
 	@Test
 	void oneSpareGame() {
-		game.roll(8);
-		game.roll(2);
+		rollSpare();
 		game.roll(3);
 		rollMany(17, 0);
 		assertThat(game.score()).isEqualTo(16);
+	}
+
+	void rollSpare() {
+		game.roll(8);
+		game.roll(2);
+	}
+
+	@Test
+	void oneStrike() {
+		game.roll(10);
+		game.roll(3);
+		game.roll(4);
+		rollMany(16, 0);
+		assertThat(game.score()).isEqualTo(24);
 	}
 }
