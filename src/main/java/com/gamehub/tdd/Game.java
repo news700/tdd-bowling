@@ -12,12 +12,16 @@ public class Game {
 		int score = 0;
 		int rollIndex = 0;
 		for (int frame = 0; frame < 10; frame++) {
-			if (isSpare(rollIndex)) { //spare
+			if (rolls[rollIndex] == 10) { //strike
+				score += 10 + rolls[rollIndex + 1] + rolls[rollIndex + 2];
+				rollIndex++;
+			} else if (isSpare(rollIndex)) { //spare
 				score += 10 + rolls[rollIndex + 2];
+				rollIndex += 2;
 			} else {
 				score += rolls[rollIndex] + rolls[rollIndex + 1];
+				rollIndex += 2;
 			}
-			rollIndex += 2;
 		}
 		return score;
 	}
